@@ -1,0 +1,198 @@
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
+html {
+    min-height: 100%;
+}
+
+body {
+    background-color: aliceblue;
+    font-family: "Open Sans", sans-serif;
+}
+#mainWin, #equalizerWin, #playlistWin{
+
+    width: 400px;
+    height: 400px;
+    box-shadow: 0 0 60px rgba(0, 0, 0, 0.8);
+    border-radius: 5px;
+    background: #222;
+    overflow: hidden;
+    z-index: 0;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+}
+#mainWin{
+    position: absolute;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+#playlistWin{
+    right: 900px;
+}
+#equalizerWin{
+    left: 900px;
+}
+#mainWin img {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    z-index: -1;
+    display: block;
+    width: 100% ;
+    height: 100% ;
+    -webkit-filter: blur(2px);
+    filter: blur(2px);
+
+}
+/*1ая панель*/
+#visualZone {
+    width: 100%;
+    height: 200px;
+    background: #222;
+    background: rgba(0, 0, 0, 0.8);
+    text-align: center;
+    position: relative;
+}
+
+
+/*2ая панель*/
+#controlsZone, #header
+{
+    background: #008080;
+    background: rgba(0,128,128, 0.6);
+    width: 100%;
+}
+#controlsZone {
+    text-align: center;
+    height: 200px;
+}
+
+.copyrights {
+    text-align: center;
+    text-transform: capitalize;
+    margin: 50px;
+    color: rgba(0, 0, 0, 0.6);
+}
+#header
+{
+    position: absolute;
+    top: -65px;
+    right: 0;
+    left: 0;
+    height: 65px;
+    border-radius: 5px 5px 0 0;
+    text-align: center;
+    color: #FFF;
+    font-size: 13px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, .8);
+    transition: all .5s;
+}
+#visualZone:hover #header { top: 0 }
+
+
+/*Плейлист*/
+[id^="song-"]{
+
+    display:inline-block;
+    white-space:nowrap;
+    border-color: #eeeeee;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    width: 100%;
+    height: 38px;
+    float: left;
+    color: #fff;
+    color: rgba(225, 225, 225, 0.9);
+}
+#currentSong{
+    border: 1px solid rgba(225, 225, 225, 0.5);
+    background: #008080;
+    background: rgba(0,128,128, 0.6);
+    color: #fff;
+}
+.songName{
+    position: relative;
+    display:inline-block;
+    width: 300px;
+    height: 26px;
+    overflow: hidden;
+    font-size: 20px;
+    top: 7px;
+    left: 10px;
+
+}
+.delsongBut{
+    display:inline-block;
+    position: relative;
+}
+.placeforClose{
+    width: 100%;
+    height: 20px;
+}
+/* КНОПКИ*/
+.controls {
+    position: relative;
+    width: 100%;
+    color: #fff;
+    text-align: center;
+}
+
+button {
+    margin: 5px;
+    color: #fff;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    cursor: pointer;
+    text-align: center;
+    text-shadow: 1px 1px 3px #000;
+    transition: all .3s ease-in-out;
+    -webkit-transition: all .3s ease-in-out;
+}
+
+button:hover {
+    color: #26C5CB;
+}
+
+
+#information, #volume-level, #controls, #progress{
+    width: 100%;
+    position: relative;
+}
+#information{
+     height: 80px;
+ }
+#volume-level{
+    height: 30px;
+}
+#controls{
+    height: 70px;
+}
+#progress{
+    height: 20px;
+}
+.closewinBut{
+    float: right;
+}
+/*ползунок!*/
+
+#equalizerWin input { -webkit-appearance: slider-vertical;}
+label.default{
+    font-size: 0.5em;
+}
+#equalizerWin div div{
+    display: inline-block;
+    width: 28px;
+}
+

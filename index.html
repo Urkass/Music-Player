@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <script src="sources/libs/jquery-2.1.4.min.js"></script>
+    <script src="sources/libs/id3-minimized.js"></script>
+    <script src="js/app.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <script type="text/javascript" src="http://jdataview.github.io/dist/jdataview.js"></script>
+    <link rel="stylesheet" href="sources/fonts/font-awesome.min.css">
+    <title></title>
+</head>
+<body>
+<div id="playlistWin">
+    <div class="placeforClose">
+        <button class="closewinBut" title="Закрыть"><i class="fa fa-times"></i></button>
+    </div>
+</div>
+<div id="mainWin">
+
+    <img id ="backcover" src="sources/images/Foo Fighters - Wasting Light cover.jpg">
+
+    <div id="visualZone">
+        <div id="header">
+            <button id="changewaveBut" title="Сменить визуализацию"><i class="fa fa-bar-chart fa-3x"></i></button>
+            <button id="changepictureBut" title="Изменить фон"><i class="fa fa-picture-o fa-3x"></i></button>
+        </div>
+
+    </div>
+
+    <div id="controlsZone">
+
+        <div id="progress"></div>
+        <div id="information">
+            <span id="artist">Coldspanlay</span>
+            <span id="title">Oceans</span>
+            <span id="album">Ghost Stories</span>
+        </div>
+        <div id="controls">
+            <button id="playlistBut" title="Плейлист"><i class="fa fa-list fa-3x"></i></button>
+            <button id="prevBut" title="Предыдущая"><i class="fa fa-fast-backward fa-3x"></i></button>
+            <button id="playBut" title="pause"><i class="fa fa-play fa-3x"></i></button>
+            <button id="pauseBut" title="Play"><i class="fa fa-pause fa-3x"></i></button>
+            <button id="nextBut" title="Следующая"><i class="fa fa-fast-forward fa-3x"></i></button>
+            <button id="equalizerBut" title="Эквалайзер"><i class="fa fa-sliders fa-3x"></i></button>
+        </div>
+        <div id="volume-level">
+            <button id="volumeofftBut" title="Выключить звук"><i class="fa fa-volume-off "></i></button>
+            <input type="range" min="0" max="100" value="50" />
+            <button id="volumeuptBut" title="Максимальная громкость"><i class="fa fa-volume-up "></i></button>
+        </div>
+
+
+    </div>
+
+</div>
+<div id="equalizerWin">
+    <div class="placeforClose">
+        <button class="closewinBut" title="Закрыть"><i class="fa fa-times"></i></button>
+    </div>
+    <!--
+
+        <ul id="drop-nav">
+            <li><a href="#"><span id="dropmenuname">Эквалайзер</span> &#9660;</a>
+                <ul>
+                    <li><a href="#" id="genre-0">Рок</a></li>
+                    <li><a href="#" id="genre-1">Поп</a></li>
+                    <li><a href="#" id="genre-2">Джаз</a></li>
+                    <li><a href="#" id="genre-3">Классическая</a></li>
+                    <li><a href="#" id="genre-4">Без коррекции</a></li>
+                    <li><a href="#" id="genre-5">Пользовательская</a></li>
+                </ul>
+            </li>
+        </ul>
+    <div>
+        <div><label class="default">32 Гц</label>
+            <input type="range" id="equalizer-0" min="-50" max="50" value="0" data-highlight="true" /></div>
+        <div><label class="default">64 Гц</label>
+            <input type="range" id="equalizer-1" min="-50" max="50" value="0" data-highlight="true" /></div>
+        <div><label class="default">125 Гц</label>
+            <input type="range" id="equalizer-2" min="-50" max="50" value="0" data-highlight="true" /></div>
+        <div><label class="default">250 Гц</label>
+            <input type="range" id="equalizer-3" min="-50" max="50" value="0" data-highlight="true" /></div>
+        <div><label class="default">500 Гц</label>
+            <input type="range" id="equalizer-4" min="-50" max="50" value="0" data-highlight="true" /></div>
+        <div><label class="default">1 кГц</label>
+            <input type="range" id="equalizer-5" min="-50" max="50" value="0" data-highlight="true" /></div>
+        <div><label class="default">2 кГц</label>
+            <input type="range" id="equalizer-6" min="-50" max="50" value="0" data-highlight="true" /></div>
+        <div><label class="default">4 кГц</label>
+            <input type="range" id="equalizer-7" min="-50" max="50" value="0" data-highlight="true" /></div>
+        <div><label class="default">8 кГц</label>
+            <input type="range" id="equalizer-8" min="-50" max="50" value="0" data-highlight="true" /></div>
+        <div><label class="default">16 кГц</label>
+            <input type="range" id="equalizer-9" min="-50" max="50" value="0" data-highlight="true" /></div>
+</div>-->
+    </div>
+
+<p class="copyrights">
+    Кузнецов Петр
+</p>
+
+</body>
+</html>
