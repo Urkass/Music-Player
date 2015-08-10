@@ -11,7 +11,7 @@
     <title></title>
 </head>
 <body>
-<div id="playlistWin">
+<div class="playlistWin">
     <div class="placeforClose">
         <button class="closewinBut" title="Закрыть"><i class="fa fa-times"></i></button>
     </div>
@@ -21,10 +21,11 @@
     <img id ="backcover" src="sources/images/Foo Fighters - Wasting Light cover.jpg">
 
     <div id="visualZone">
-        <div id="header">
-            <button id="changewaveBut" title="Сменить визуализацию"><i class="fa fa-bar-chart fa-3x"></i></button>
-            <button id="changepictureBut" title="Изменить фон"><i class="fa fa-picture-o fa-3x"></i></button>
-        </div>
+
+        <canvas  id="myCanvas"></canvas><div id="header">
+        <button id="changewaveBut" title="Сменить визуализацию"><i class="fa fa-bar-chart fa-3x"></i></button>
+        <button id="changepictureBut" title="Изменить фон"><i class="fa fa-picture-o fa-3x"></i></button>
+    </div>
 
     </div>
 
@@ -32,17 +33,17 @@
 
         <div id="progress"></div>
         <div id="information">
-            <span id="artist">Coldspanlay</span>
-            <span id="title">Oceans</span>
-            <span id="album">Ghost Stories</span>
+            <p id="artist">Coldplay</p>
+            <p id="title">Oceans</p>
+            <p id="album">Ghost Stories</p>
         </div>
         <div id="controls">
-            <button id="playlistBut" title="Плейлист"><i class="fa fa-list fa-3x"></i></button>
+            <button id="playlistBut" class="pressed" title="Плейлист"><i class="fa fa-list fa-3x"></i></button>
             <button id="prevBut" title="Предыдущая"><i class="fa fa-fast-backward fa-3x"></i></button>
             <button id="playBut" title="pause"><i class="fa fa-play fa-3x"></i></button>
             <button id="pauseBut" title="Play"><i class="fa fa-pause fa-3x"></i></button>
             <button id="nextBut" title="Следующая"><i class="fa fa-fast-forward fa-3x"></i></button>
-            <button id="equalizerBut" title="Эквалайзер"><i class="fa fa-sliders fa-3x"></i></button>
+            <button id="equalizerBut" class="pressed" title="Эквалайзер"><i class="fa fa-sliders fa-3x"></i></button>
         </div>
         <div id="volume-level">
             <button id="volumeofftBut" title="Выключить звук"><i class="fa fa-volume-off "></i></button>
@@ -54,7 +55,7 @@
     </div>
 
 </div>
-<div id="equalizerWin">
+<div class="equalizerWin">
     <div class="placeforClose">
         <button class="closewinBut" title="Закрыть"><i class="fa fa-times"></i></button>
     </div>
