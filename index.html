@@ -18,12 +18,14 @@
 </div>
 <div id="mainWin">
 
-    <img id ="backcover" src="sources/images/Foo Fighters - Wasting Light cover.jpg">
+    <img id ="backcover" src="sources/images/ImageAwesome400(2).jpg">
 
     <div id="visualZone">
 
         <canvas  id="myCanvas"></canvas><div id="header">
-        <button id="changewaveBut" title="Сменить визуализацию"><i class="fa fa-bar-chart fa-3x"></i></button>
+        <button id="changewaveBut" class="spec" title="Сменить визуализацию"><i class="fa fa-bar-chart fa-3x"></i></button>
+
+        <!--<button id="loadsongBut" title="Открыть песню"><i class="fa fa-upload fa-3x"><input type="file" id="inputZone"></i></button>-->
         <button id="changepictureBut" title="Изменить фон"><i class="fa fa-picture-o fa-3x"></i></button>
     </div>
 
@@ -47,7 +49,7 @@
         </div>
         <div id="volume-level">
             <button id="volumeofftBut" title="Выключить звук"><i class="fa fa-volume-off "></i></button>
-            <input type="range" min="0" max="100" value="50" />
+            <input id ="volume" type="range" min="0" max="50" value="10" />
             <button id="volumeuptBut" title="Максимальная громкость"><i class="fa fa-volume-up "></i></button>
         </div>
 
@@ -59,43 +61,40 @@
     <div class="placeforClose">
         <button class="closewinBut" title="Закрыть"><i class="fa fa-times"></i></button>
     </div>
-    <!--
 
-        <ul id="drop-nav">
-            <li><a href="#"><span id="dropmenuname">Эквалайзер</span> &#9660;</a>
-                <ul>
-                    <li><a href="#" id="genre-0">Рок</a></li>
-                    <li><a href="#" id="genre-1">Поп</a></li>
-                    <li><a href="#" id="genre-2">Джаз</a></li>
-                    <li><a href="#" id="genre-3">Классическая</a></li>
-                    <li><a href="#" id="genre-4">Без коррекции</a></li>
-                    <li><a href="#" id="genre-5">Пользовательская</a></li>
-                </ul>
-            </li>
-        </ul>
-    <div>
-        <div><label class="default">32 Гц</label>
-            <input type="range" id="equalizer-0" min="-50" max="50" value="0" data-highlight="true" /></div>
+        <div class="genre" id="genre-0"><div class="genreName">Рок</div></div>
+        <div class="genre" id="genre-1"><div class="genreName">Поп</div></div>
+        <div class="genre" id="genre-2"><div class="genreName">Джаз</div></div>
+        <div class="genre" id="genre-3"><div class="genreName">Классическая</div></div>
+        <div class="genre" id="genre-4"><div class="genreName">Без коррекции</div></div>
+        <div class="genre" id="genre-5"><div class="genreName">Пользовательская</div></div>
+
+
+    <div id="sliders">
+        <div>
+            <label class="default">32 Гц</label>
+            <input type="range" id="equalizer-0" min="-12" max="12" value="0" data-highlight="true" />
+        </div>
         <div><label class="default">64 Гц</label>
-            <input type="range" id="equalizer-1" min="-50" max="50" value="0" data-highlight="true" /></div>
+            <input type="range" id="equalizer-1" min="-12" max="12" value="0" data-highlight="true" /></div>
         <div><label class="default">125 Гц</label>
-            <input type="range" id="equalizer-2" min="-50" max="50" value="0" data-highlight="true" /></div>
+            <input type="range" id="equalizer-2" min="-12" max="12" value="0" data-highlight="true" /></div>
         <div><label class="default">250 Гц</label>
-            <input type="range" id="equalizer-3" min="-50" max="50" value="0" data-highlight="true" /></div>
+            <input type="range" id="equalizer-3" min="-12" max="12" value="0" data-highlight="true" /></div>
         <div><label class="default">500 Гц</label>
-            <input type="range" id="equalizer-4" min="-50" max="50" value="0" data-highlight="true" /></div>
+            <input type="range" id="equalizer-4" min="-12" max="12" value="0" data-highlight="true" /></div>
         <div><label class="default">1 кГц</label>
-            <input type="range" id="equalizer-5" min="-50" max="50" value="0" data-highlight="true" /></div>
+            <input type="range" id="equalizer-5" min="-12" max="12" value="0" data-highlight="true" /></div>
         <div><label class="default">2 кГц</label>
-            <input type="range" id="equalizer-6" min="-50" max="50" value="0" data-highlight="true" /></div>
+            <input type="range" id="equalizer-6" min="-12" max="12" value="0" data-highlight="true" /></div>
         <div><label class="default">4 кГц</label>
-            <input type="range" id="equalizer-7" min="-50" max="50" value="0" data-highlight="true" /></div>
+            <input type="range" id="equalizer-7" min="-12" max="12" value="0" data-highlight="true" /></div>
         <div><label class="default">8 кГц</label>
-            <input type="range" id="equalizer-8" min="-50" max="50" value="0" data-highlight="true" /></div>
+            <input type="range" id="equalizer-8" min="-12" max="12" value="0" data-highlight="true" /></div>
         <div><label class="default">16 кГц</label>
-            <input type="range" id="equalizer-9" min="-50" max="50" value="0" data-highlight="true" /></div>
-</div>-->
+            <input type="range" id="equalizer-9" min="-12" max="12" value="0" data-highlight="true" /></div>
     </div>
+</div>
 
 <p class="copyrights">
     Кузнецов Петр

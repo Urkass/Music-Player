@@ -1,9 +1,18 @@
 var _context,
-    _analyserNode;
-
+    _analyserNode,
+    _gainNode,
+    _equalizerNodes;
+var _genre = [
+    [5 ,4, 3, 1, -1, -1, 0, 2, 3, 4], //rock
+    [-2, -1, 0, 1, 3, 3, 1, 0, 1, 2], //pop
+    [4, 3, 1, 2, -2, -2, 0, 1, 2, 3], //jazz
+    [5, 4, 3, 3, -2, -2, 0, 2, 3, 3], //clas
+    [0,0,0,0,0,0,0,0,0,0]//norm
+];
 var _audio = new Audio(),
     _playList=[],
-    _playingNumber;
+    _playingNumber,
+    _playingGenre;
 //контекст
 $(document).ready(function(){
     try {
@@ -49,7 +58,7 @@ $(function(){
         var files = e.originalEvent.dataTransfer.files;
         loadSong(files[0]);
     });
-    $('#inputZone').on('change', function(e) {
+    $('#loadsongBut').on('click', function(e) {
         var files = e.target.files;
         loadSong(files[0]);
     }) ;
@@ -86,6 +95,7 @@ $(function(){
             $(this).addClass("pressed");
         }
     });
+
     $equalizerButton.on('click', function(){
         if ($(this).attr('class') === "pressed") {
             $equalizerWindow.addClass("closed");
@@ -96,14 +106,85 @@ $(function(){
             $(this).addClass("pressed");
         }
     });
+    //закрыть окно
     $(".closewinBut").on('click', function(){
+        console.log("Закрыть!");
         var winClass = $(this).closest('div').parent().attr('class');
         console.log(winClass);
         $("." + winClass).addClass("closed");
         if (winClass=="playlistWin") $playlistButton.removeClass("pressed");
         else $equalizerButton.removeClass("pressed");
     });
+    //поменять визуализацию
+    $("#changewaveBut").on('click', function(){
+        if ($(this).attr('class') === "spec"){
+            $(this).removeClass("spec");
+            $(this).addClass("wave");
+            waveform();
+        }
+        else{
+            $(this).removeClass("wave");
+            $(this).addClass("spec");
+            specform();
+        }
+    });
+    //ползунок звука
+    $('#volume').on('change', function() {
+        _gainNode.gain.value = parseInt(this.value, 10) / 100;
+        console.log(_gainNode.gain.value);
+    });
 
+    //ползунки эквалайзера
+    $("input[id^='equalizer-']").on('change', function () {
+        var index;
+        $('#dropmenuname').text($('#genre-5').text());
+        index = parseInt($(this).attr('id').replace('equalizer-', ''), 10);
+        _equalizerNodes[index].gain.value = 4 * parseInt(this.value, 10);
+        console.log(index + '; ' + parseInt(this.value, 10) + '; ' + this.value );
+    });
+    //дроп меню эквалайзера
+    /*$("#equalizer-menu div[id^='genre-']").click( function () {
+        var index;
+        index = parseInt($(this).attr('id').replace('genre-', ''), 10);
+        for (var i=0; i<10; i++){
+            _equalizerNodes[i].gain.value = 4* _genre[index][i];
+            $("input[id^= "+ 'equalizer-' + i +"]").val(_genre[index][i]);
+        }
+        $('.song').eq(_playingGenre).removeClass("currentGenre");
+        $('.song').eq(index).removeClass("currentGenre");
+        _playingGenre = index;
+
+    });*/
+    $equalizerWindow.click( function(e) {
+        var index;
+        e.preventDefault();
+        console.log(e.target);
+        if ($(e.target).attr('class') === "genre") {
+            console.log("попал в жанр");
+            index = $(e.target).index();
+            selectGenre(index-1);
+
+        }
+        else if ($(e.target).attr('class') === "genreName") {
+            index = $(e.target).parent().index();
+            selectGenre(index-1);
+
+        }
+        console.log(index);
+        function selectGenre(index){
+            console.log("ф-ц");
+            for (var i=0; i<10; i++){
+                _equalizerNodes[i].gain.value = 4* _genre[index][i];
+                $("input[id^= "+ 'equalizer-' + i +"]").val(_genre[index][i]);
+            }
+            $('.genre').eq(_playingGenre).removeClass("currentGenre");
+            $('.genre').eq(index).addClass("currentGenre");
+            _playingGenre = index;
+        }
+    });
+    $("#changepictureBut").on('click', function(){
+        $('#backcover').attr('src', "sources/images/ImageAwesome400(2).jpg");
+    });
 });
 
 function loadSong(file){
@@ -172,9 +253,9 @@ function metaTags(file){
         console.log(src);
         var tags = ID3.getAllTags(src);
         console.log(tags);
-        document.getElementById('title').textContent = tags.title || "";
-        document.getElementById('artist').textContent = tags.artist || "";
-        document.getElementById('album').textContent = tags.album || "";
+        $('#title').text(tags.title || "");
+        $('#artist').text(tags.artist || "");
+        $('#album').text( tags.album || "");
         var image = tags.picture;
         if (image) {
             var base64String = "";
@@ -183,42 +264,73 @@ function metaTags(file){
             }
             var base64 = "data:" + image.format + ";base64," +
                 window.btoa(base64String);
-            document.getElementById('backcover').setAttribute('src', base64);
-
-        } else {
-
+            $('#backcover').attr('src', base64);
+        }
+        else{
+            $('#backcover').attr('src', "sources/images/ImageAwesome400(2).jpg");
         }
     }
 }
 
 
 function makingcontext(){
-
+    var frequences = [32, 64, 125, 250, 500, 1000, 2000, 4000, 8000, 16000];
     var source,
         filterNode,
-        gainNode,
         destination;
     source = _context.createMediaElementSource(_audio);
-    gainNode  = _context.createGain();
+    _gainNode  = _context.createGain();
     filterNode = _context.createBiquadFilter();
-    destination = _context.destination;
     _analyserNode = _context.createAnalyser();
+
+
+    destination = _context.destination;
+
 
     filterNode.type = "peaking";
     filterNode.frequency.value = 0;
     filterNode.Q.value = 0;
     filterNode.gain.value = 0;
+    // для каждого элемента массива создаем по фильтру
+    _equalizerNodes = frequences.map( function(frequency){
+        var bFilter = _context.createBiquadFilter();
 
-    gainNode.connect(_analyserNode);
+        bFilter.type = 'peaking';
+        bFilter.frequency.value = frequency;
+        bFilter.Q.value = 2;
+        bFilter.gain.value = 0;
+
+        return bFilter;
+    });
+    
+
+   ;
+    _gainNode.connect(_analyserNode);
     _analyserNode.connect(_context.destination);
-    filterNode.connect(gainNode);
-    source.connect(gainNode);
-    gainNode.connect(destination);
+    filterNode.connect(_gainNode);
+
+
+    _equalizerNodes[0].connect(_equalizerNodes[1]);
+    _equalizerNodes[1].connect(_equalizerNodes[2]);
+    _equalizerNodes[2].connect(_equalizerNodes[3]);
+    _equalizerNodes[3].connect(_equalizerNodes[4]);
+    _equalizerNodes[4].connect(_equalizerNodes[5]);
+    _equalizerNodes[5].connect(_equalizerNodes[6]);
+    _equalizerNodes[6].connect(_equalizerNodes[7]);
+    _equalizerNodes[7].connect(_equalizerNodes[8]);
+    _equalizerNodes[8].connect(_equalizerNodes[9]);
+    _equalizerNodes[9].connect(_gainNode);
+
+    source.connect(_equalizerNodes[0])
+    source.connect(_gainNode);
+    _gainNode.connect(destination);
     source.connect(filterNode);
     specform();
+    _gainNode.gain.value =0.1;
 
 }
 function specform(){
+
     _analyserNode.fftSize = 256;
     var frequencyArray = new Uint8Array(_analyserNode.frequencyBinCount);
     draw();
@@ -246,3 +358,54 @@ function specform(){
         requestAnimationFrame(draw);
     }
 };
+function waveform() {
+
+
+    function draw() {
+        var canvas = document.querySelector('canvas');
+        canvas.width = document.querySelector('#visualZone').offsetWidth ;
+        canvas.height = document.querySelector('#visualZone').offsetHeight ;
+        var WIDTH = canvas.width;
+        var HEIGHT = canvas.height;
+        var canvasCtx = canvas.getContext('2d');
+        var animationFrame;
+        _analyserNode.fftSize = 256;
+        var bufferLength = _analyserNode.frequencyBinCount;
+        var dataArray = new Uint8Array(bufferLength);
+        canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
+
+
+        requestAnimationFrame(draw);
+        _analyserNode.getByteTimeDomainData(dataArray);
+
+
+        canvasCtx.lineWidth = 2;
+        canvasCtx.strokeStyle = 'rgb(255, 255, 255)';
+
+        canvasCtx.beginPath();
+
+
+        var sliceWidth = WIDTH * 1.0 / bufferLength;
+        var x = 0;
+
+        for (var i = 0; i < bufferLength; i++) {
+
+            var v = dataArray[i] / 128.0;
+            var y = v * HEIGHT / 2;
+
+            if (i === 0) {
+                canvasCtx.moveTo(x, y);
+            } else {
+                canvasCtx.lineTo(x, y);
+            }
+
+            x += sliceWidth;
+        }
+
+        canvasCtx.lineTo(canvas.width, canvas.height / 2);
+        canvasCtx.stroke();
+
+    }
+
+    draw();
+}

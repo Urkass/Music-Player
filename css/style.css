@@ -116,12 +116,13 @@ canvas{
     color: black;
 }
 /*Плейлист*/
-.song{
+.song, .genre{
 
-    display:inline-block;
+    display: table-cell;
     white-space:nowrap;
     border-color: #eeeeee;
-    border-top: 1px solid;
+
+    border-collapse: collapse;
     border-bottom: 1px solid ;
     width: 100%;
     height: 38px;
@@ -130,16 +131,17 @@ canvas{
     color: rgba(225, 225, 225, 0.9);
     cursor: pointer;
 }
-.song:hover{
+.song:hover, .genre:hover{
     color: #fff;
 
 }
-.currentSong{
+.currentSong, .currentGenre{
     background: #008080;
     background: rgba(0,128,128, 0.6);
     color: #fff;
+    border-color: #eeeeee;
 }
-.songName{
+.songName, .genreName{
     position: relative;
     display:inline-block;
     width: 350px;
@@ -157,6 +159,8 @@ canvas{
 .placeforClose{
     width: 100%;
     height: 20px;
+    color: #eeeeee;
+    border-bottom:1px solid #eeeeee;
 }
 /* КНОПКИ*/
 .controls {
@@ -202,15 +206,29 @@ button:hover {
 }
 .closewinBut{
     float: right;
+    margin: 0;
 }
 /*ползунок!*/
 
-.equalizerWin input { -webkit-appearance: slider-vertical;}
+.equalizerWin input {
+    -webkit-appearance: slider-vertical;
+    width: 20px;
+}
 label.default{
     font-size: 0.5em;
 }
-.equalizerWin div div{
-    display: inline-block;
-    width: 28px;
+#sliders {
+    width: 100%;
+    height: 150px;
+    float: left;
+    color: #fff;
+    color: rgba(225, 225, 225, 0.9);
+    cursor: pointer;
+}
+#sliders div{
+    width: 30px;
+    height: 148px;
+    float: left;
+    margin-left: 9px;
 }
 
