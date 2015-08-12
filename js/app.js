@@ -12,7 +12,7 @@ var _genre = [
 var _audio = new Audio(),
     _playList=[],
     _playingNumber,
-    _playingGenre;
+    _playingGenre=4;
 //контекст
 $(document).ready(function(){
     try {
@@ -30,12 +30,11 @@ $(function(){
     $equalizerWindow = $(".equalizerWin");
     $equalizerButton = $("#equalizerBut");
     $("#playBut").on('click', function(){
-        console.log("play");
-        playSong();
+        if ($("#playBut i").attr('class') === "fa fa-pause fa-3x") pauseSong();
+        else playSong();
     });
-    $("#pauseBut").on('click', function(){
-        console.log("pause");
-        pauseSong();
+    $("#stopBut").on('click', function(){
+        stopSong();
     });
     $("#nextBut").on('click', function(){
         next();
@@ -118,13 +117,11 @@ $(function(){
     //поменять визуализацию
     $("#changewaveBut").on('click', function(){
         if ($(this).attr('class') === "spec"){
-            $(this).removeClass("spec");
-            $(this).addClass("wave");
+            $(this).removeClass("spec").addClass("wave");
             waveform();
         }
         else{
-            $(this).removeClass("wave");
-            $(this).addClass("spec");
+            $(this).removeClass("wave").addClass("spec");
             specform();
         }
     });
@@ -133,28 +130,24 @@ $(function(){
         _gainNode.gain.value = parseInt(this.value, 10) / 100;
         console.log(_gainNode.gain.value);
     });
-
+    $('#volumeuptBut').on('click', function(){
+        var vol=50;
+        $("#volume").val(vol);
+        _gainNode.gain.value = parseInt(vol, 10) / 100;
+    });
+    $('#volumeofftBut').on('click', function(){
+        var vol=0;
+        $("#volume").val(vol);
+        _gainNode.gain.value = parseInt(vol, 10) / 100;
+    });
     //ползунки эквалайзера
     $("input[id^='equalizer-']").on('change', function () {
         var index;
         $('#dropmenuname').text($('#genre-5').text());
         index = parseInt($(this).attr('id').replace('equalizer-', ''), 10);
-        _equalizerNodes[index].gain.value = 4 * parseInt(this.value, 10);
-        console.log(index + '; ' + parseInt(this.value, 10) + '; ' + this.value );
+        _equalizerNodes[index].gain.value =  parseInt(this.value, 10);
     });
-    //дроп меню эквалайзера
-    /*$("#equalizer-menu div[id^='genre-']").click( function () {
-        var index;
-        index = parseInt($(this).attr('id').replace('genre-', ''), 10);
-        for (var i=0; i<10; i++){
-            _equalizerNodes[i].gain.value = 4* _genre[index][i];
-            $("input[id^= "+ 'equalizer-' + i +"]").val(_genre[index][i]);
-        }
-        $('.song').eq(_playingGenre).removeClass("currentGenre");
-        $('.song').eq(index).removeClass("currentGenre");
-        _playingGenre = index;
-
-    });*/
+    //меню эквалайзера
     $equalizerWindow.click( function(e) {
         var index;
         e.preventDefault();
@@ -174,7 +167,7 @@ $(function(){
         function selectGenre(index){
             console.log("ф-ц");
             for (var i=0; i<10; i++){
-                _equalizerNodes[i].gain.value = 4* _genre[index][i];
+                _equalizerNodes[i].gain.value =  _genre[index][i];
                 $("input[id^= "+ 'equalizer-' + i +"]").val(_genre[index][i]);
             }
             $('.genre').eq(_playingGenre).removeClass("currentGenre");
@@ -217,13 +210,23 @@ function deleteSong(index){
 }
 function playSong(){
     _audio.play();
+    $('#playBut i').removeClass().addClass('fa fa-pause fa-3x');
+    $('link[rel$=icon]').remove();
+    $('head').append( $('<link rel="shortcut icon" type="image/x-icon"/>' ).attr( 'href', "sources/images/faviconPlay.ico" ) );
 
-}
-function stopSong(){
-    _audio.pause();
 }
 function pauseSong(){
     _audio.pause();
+    $('#playBut i').removeClass().addClass('fa fa-play fa-3x');
+    $('link[rel$=icon]').remove();
+    $('head').append( $('<link rel="shortcut icon" type="image/x-icon"/>' ).attr( 'href', "sources/images/faviconPause.ico" ) );
+}
+function stopSong(){
+    pauseSong();
+    _audio.currentTime = 0;
+}
+function changeFavicon(){
+
 }
 function next(){
     if(_playingNumber==_playList.length)  selectSong(1);
@@ -275,41 +278,24 @@ function metaTags(file){
 
 function makingcontext(){
     var frequences = [32, 64, 125, 250, 500, 1000, 2000, 4000, 8000, 16000];
-    var source,
-        filterNode,
-        destination;
+    var source;
     source = _context.createMediaElementSource(_audio);
     _gainNode  = _context.createGain();
-    filterNode = _context.createBiquadFilter();
+    //filterNode = _context.createBiquadFilter();
     _analyserNode = _context.createAnalyser();
 
-
-    destination = _context.destination;
-
-
-    filterNode.type = "peaking";
-    filterNode.frequency.value = 0;
-    filterNode.Q.value = 0;
-    filterNode.gain.value = 0;
     // для каждого элемента массива создаем по фильтру
     _equalizerNodes = frequences.map( function(frequency){
         var bFilter = _context.createBiquadFilter();
 
         bFilter.type = 'peaking';
         bFilter.frequency.value = frequency;
-        bFilter.Q.value = 2;
+        bFilter.Q.value = 0;
         bFilter.gain.value = 0;
 
         return bFilter;
     });
-    
-
-   ;
-    _gainNode.connect(_analyserNode);
-    _analyserNode.connect(_context.destination);
-    filterNode.connect(_gainNode);
-
-
+    source.connect(_equalizerNodes[0])
     _equalizerNodes[0].connect(_equalizerNodes[1]);
     _equalizerNodes[1].connect(_equalizerNodes[2]);
     _equalizerNodes[2].connect(_equalizerNodes[3]);
@@ -319,12 +305,11 @@ function makingcontext(){
     _equalizerNodes[6].connect(_equalizerNodes[7]);
     _equalizerNodes[7].connect(_equalizerNodes[8]);
     _equalizerNodes[8].connect(_equalizerNodes[9]);
-    _equalizerNodes[9].connect(_gainNode);
+    _equalizerNodes[9].connect(_analyserNode);
 
-    source.connect(_equalizerNodes[0])
-    source.connect(_gainNode);
-    _gainNode.connect(destination);
-    source.connect(filterNode);
+    _analyserNode.connect(_gainNode);
+    _gainNode.connect(_context.destination);
+
     specform();
     _gainNode.gain.value =0.1;
 
