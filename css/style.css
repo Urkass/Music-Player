@@ -194,7 +194,7 @@ button:active{
 }
 
 
-#information, #volume-level, #controls, #progress{
+#information, #volume-level, #controls, #timeLine{
     width: 100%;
     position: relative;
 }
@@ -207,8 +207,36 @@ button:active{
 #controls{
     height: 70px;
 }
-#progress{
+#timeLine{
     height: 20px;
+    background-color: rgba(225, 225, 225, 0.5);
+    cursor: pointer;
+
+    border-bottom: 1px solid  #222;
+}
+#timeFiller{
+    width: 0;
+    height: 19px;
+    float: left;
+    display: inline-block;
+
+    /*background-color: #005e5e ;*/
+    background-color: #3b3b3b;
+}
+
+.timeLabel{
+    position: absolute;
+    font-size: 0.8em;
+    top: 2px;
+
+}
+#timeCurr{
+    left: 10px;
+    display: none;
+}
+#timeFull{
+    right: 10px;
+    display: none;
 }
 .closewinBut{
     float: right;
@@ -256,7 +284,7 @@ input[type=range]::-webkit-slider-thumb {
     width: 20px;
     height: 20px;
     border-radius: 100%;
-    background: rgba(0,120,130, 1);
+    background: #008080;
     position: relative;
     border: 3px solid  #222;;
     box-shadow: 1px 1px 3px #000;;
@@ -295,4 +323,19 @@ input[type=range]:focus {
 }
 input[type=range]:focus::-webkit-slider-runnable-track {
     background: #ccc;
+}
+#inputZone{
+    position: absolute;
+    top: -100px;
+}
+#speechZone{
+    position: absolute;
+    top: 80px;
+    left: 100px;
+    width: 200px;
+    height: 40px;
+    background: rgba(0,120,130, 0.6);
+    border-radius: 5px;
+    font-size: 15px;
+    color: white;
 }

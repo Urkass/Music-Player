@@ -22,11 +22,11 @@
     <img id ="backcover" src="sources/images/ImageAwesome400(2).jpg">
 
     <div id="visualZone">
-
+        <div id="speechZone">Перетащите или нажмите <i class="fa fa-upload"></i> для загрузки песни</div>
         <canvas  id="myCanvas"></canvas><div id="header">
         <button id="changewaveBut" class="spec" title="Сменить визуализацию"><i class="fa fa-bar-chart fa-3x"></i></button>
-
-        <!--<button id="loadsongBut" title="Открыть песню"><i class="fa fa-upload fa-3x"><input type="file" id="inputZone"></i></button>-->
+        <input type="file" id="inputZone">
+        <button id="loadsongBut" title="Открыть песню"><i class="fa fa-upload fa-3x"></i></button>
         <button id="changepictureBut" title="Изменить фон"><i class="fa fa-picture-o fa-3x"></i></button>
     </div>
 
@@ -34,7 +34,7 @@
 
     <div id="controlsZone">
 
-        <div id="progress"></div>
+        <div id="timeLine" ><span class="timeLabel" id="timeCurr">00:00</span><span class="timeLabel" id="timeFull">00:00</span><span id="timeFiller"></span></div>
         <div id="information">
             <p id="artist"></p>
             <p id="title"></p>

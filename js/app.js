@@ -29,6 +29,10 @@ $(function(){
     $playlistButton = $("#playlistBut");
     $equalizerWindow = $(".equalizerWin");
     $equalizerButton = $("#equalizerBut");
+    $timeLine = $("#timeLine");
+    $timeFiller = $("#timeFiller");
+    $timeFull = $("#timeFull");
+    $timeCurr = $("#timeCurr");
     $("#playBut").on('click', function(){
         if ($("#playBut i").attr('class') === "fa fa-pause fa-3x") pauseSong();
         else playSong();
@@ -57,10 +61,7 @@ $(function(){
         var files = e.originalEvent.dataTransfer.files;
         loadSong(files[0]);
     });
-    $('#loadsongBut').on('click', function(e) {
-        var files = e.target.files;
-        loadSong(files[0]);
-    }) ;
+
     $playlistWindow.click( function(e) {
         e.preventDefault();
         console.log(e.target);
@@ -178,12 +179,60 @@ $(function(){
     $("#changepictureBut").on('click', function(){
         $('#backcover').attr('src', "sources/images/ImageAwesome400(2).jpg");
     });
+    $("#loadsongBut").on('click', function(e){
+        e.preventDefault();
+        $('#inputZone').trigger('click');
+    });
+    $('#inputZone').on('change', function(e) {
+        var files = e.target.files;
+        loadSong(files[0]);
+    });
+
+    function updateTime() {
+        var value = 0,
+            textC;
+        if (_audio.currentTime > 0) {
+            value = ((100 / _audio.duration) * _audio.currentTime).toFixed(2);
+        }
+        $timeFiller.width(value + "%");
+        textC = setTime(_audio.currentTime, 1);
+        $timeCurr.text(textC);
+        function setTime(time, key){
+            var currT = parseInt(time, 10),
+                min = parseInt(currT/60, 10),
+                sec = currT%60,
+                minzero = "0",
+                seczero = "0";
+            if (min === 0 &&sec === 0 && key!=0){
+                $timeCurr.show();
+                $timeFull.show();
+                var textD =setTime( _audio.duration, 0);
+                $timeFull.text(textD);
+            }
+            if (min>9) minzero = "";
+            if (sec>9) seczero = "";
+            return minzero + min + ":" + seczero + sec;
+        }
+    }
+    _audio.addEventListener('timeupdate', updateTime);
+
+    $timeLine.on('click', function (e) {
+        var value = ((100 / _audio.duration) * _audio.currentTime).toFixed(2);
+        var x = e.clientX - $timeFiller.offset().left;
+        var width = x * 100 / $(this).width();
+        _audio.currentTime = _audio.duration * width / 100;
+    });
 });
+
 
 function loadSong(file){
     addtoPlaylist(file);
     console.log("Файл загружен; длина плейлиста =  " + _playList.length);
-    if (_playList.length === 1) selectSong(1);
+    if (_playList.length === 1) {
+        $("#speechZone").hide();
+        selectSong(1);
+    }
+
 }
 
 function addtoPlaylist(file){
