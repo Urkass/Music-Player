@@ -1,0 +1,431 @@
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
+html {
+    min-height: 100%;
+}
+
+body {
+    background-color: aliceblue;
+    font-family: "Open Sans", sans-serif;
+}
+#panel{
+    position: absolute;
+    width: 1300px;
+    height: 400px;
+    z-index: 0;
+    top: 50%;
+    left: 50%;
+    /* bring your own prefixes */
+    transform: translate(-50%, -50%);
+}
+#mainWin, .equalizerWin, .playlistWin{
+
+    width: 400px;
+    height: 400px;
+    box-shadow: 0 0 60px rgba(0, 0, 0, 0.8);
+    border-radius: 5px;
+    background: #222;
+    overflow: hidden;
+    z-index: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+}
+#mainWin{
+    left: 450px;
+}
+.playlistWin{
+
+
+}
+.equalizerWin{
+
+    left: 900px;
+}
+#mainWin img {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    z-index: -1;
+    display: block;
+    width: 100% ;
+    height: 100% ;
+    background-color: #222222;
+    -webkit-filter: blur(2px);
+    filter: blur(2px);
+
+}
+/*1ая панель*/
+#visualZone {
+    width: 100%;
+    height: 200px;
+    background: #222;
+    background: rgba(0, 0, 0, 0.8);
+    text-align: center;
+    position: relative;
+}
+#visualZone button{
+    margin-top: 10px;
+}
+canvas{
+    position: relative;
+    width: 100%;
+    height: 200px;
+}
+
+/*2ая панель*/
+#controlsZone, #header
+{
+    background: #008080;
+    background: rgba(0,128,128, 0.6);
+    width: 100%;
+}
+#controlsZone {
+    text-align: center;
+    height: 200px;
+}
+
+#copyrights {
+    position: absolute;
+    top: 130%;
+    left: 50%;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    text-transform: capitalize;
+
+    color: rgba(0, 0, 0, 0.6);
+}
+#copyrights a{
+    color: #008080;
+
+}
+#header
+{
+    position: absolute;
+    top: -65px;
+    right: 0;
+    left: 0;
+    height: 65px;
+    border-radius: 5px 5px 0 0;
+    text-align: center;
+    color: #FFF;
+    font-size: 13px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, .8);
+    transition: all .5s;
+}
+#visualZone:hover #header { top: 0 }
+#information p{
+    margin: 3px;
+    color: #FFF;
+    font-size: 20px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, .8);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/*Плейлист*/
+.song, .genre{
+
+    display: table-cell;
+    white-space:nowrap;
+    border-color: #eeeeee;
+
+    border-collapse: collapse;
+    border-bottom: 1px solid ;
+    width: 100%;
+    height: 38px;
+    float: left;
+    color: #fff;
+    color: rgba(225, 225, 225, 0.9);
+    cursor: pointer;
+}
+.song:hover, .genre:hover{
+    color: #fff;
+    border-color: #eeeeee;
+
+}
+.currentSong, .currentGenre{
+    background: #008080;
+    background: rgba(0,128,128, 0.6);
+    color: #fff;
+    border-color: #eeeeee;
+}
+.songName, .genreName{
+    position: relative;
+    display:inline-block;
+    width: 350px;
+    height: 26px;
+    overflow: hidden;
+    font-size: 20px;
+    top: 7px;
+    left: 10px;
+
+}
+.delsongBut{
+    display:inline-block;
+    position: relative;
+    top: -3px;
+}
+.placeforClose{
+    width: 100%;
+    height: 20px;
+    color: #eeeeee;
+    border-bottom:1px solid #eeeeee;
+}
+/* КНОПКИ*/
+.controls {
+    position: relative;
+    width: 100%;
+    color: #fff;
+    text-align: center;
+}
+
+button {
+    margin: 3px;
+    color: #fff;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    cursor: pointer;
+    text-align: center;
+    text-shadow: 1px 1px 3px #000;
+    transition: all .3s ease-in-out;
+    -webkit-transition: all .3s ease-in-out;
+}
+
+button:hover {
+    text-shadow: 3px 3px 3px #000;
+    color: #c3ece6;
+}
+button:active{
+    color: black;
+}
+
+
+#information, #volume-level, #controls, #timeLine{
+    width: 100%;
+    position: relative;
+}
+#information{
+     height: 80px;
+ }
+#volume-level{
+    height: 30px;
+}
+#controls{
+    height: 70px;
+}
+#timeLine{
+    height: 20px;
+    background-color: rgba(225, 225, 225, 0.5);
+    cursor: pointer;
+
+    border-bottom: 1px solid  #222;
+}
+#timeFiller{
+    width: 0;
+    height: 19px;
+    float: left;
+    display: inline-block;
+
+    /*background-color: #005e5e ;*/
+    background-color: #3b3b3b;
+}
+
+.timeLabel{
+    position: absolute;
+    font-size: 0.8em;
+    top: 2px;
+    display: none;
+}
+#timeCurr{
+    left: 10px;
+}
+#timeFull{
+    right: 10px;
+
+}
+.closewinBut{
+    float: right;
+    margin: 0;
+}
+/*ползунок!*/
+
+
+label.default{
+    font-size: 0.5em;
+}
+#sliders {
+    width: 100%;
+    height: 150px;
+    float: left;
+    color: #fff;
+    color: rgba(225, 225, 225, 0.9);
+    cursor: pointer;
+}
+#sliders div{
+    width: 30px;
+    height: 148px;
+    float: left;
+    margin-left: 9px;
+}
+
+input[type=range]{
+    -webkit-appearance: none;
+    width: 200px;
+    height: 5px;
+    background: white;
+    background-position: center;
+    background-repeat: no-repeat;
+    top: 0px;
+    box-shadow: 1px 1px 3px #000;;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    margin: auto;
+    border-radius: 10px;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    background: #008080;
+    position: relative;
+    border: 3px solid  #222;;
+    box-shadow: 1px 1px 3px #000;;
+    z-index: 3;
+    cursor: pointer;
+    border-radius: 100%;
+}
+
+.equalizerWin input{
+    -webkit-appearance: none;
+    -webkit-transform:rotate(-90deg);
+    width: 150px;
+    margin-top: 80px;
+    margin-left: -63px;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    height: 5px;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    margin-top: -8px;
+    width: 20px;
+    height: 20px;
+
+    background: rgba(0,120,130, 1);
+    position: relative;
+    border: 3px solid  #222;;
+    box-shadow: 1px 1px 3px #000;;
+    z-index: 3;
+    cursor: pointer;
+}
+
+input[type=range]:focus {
+    outline: none;
+}
+input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #ccc;
+}
+#inputZone{
+    position: absolute;
+    top: -100px;
+}
+#speechZone{
+    position: absolute;
+    top: 80px;
+    left: 100px;
+    width: 200px;
+    height: 40px;
+    color: rgba(225, 225, 225, 0.9);
+    background: rgba(0,120,130, 0.6);
+    border-radius: 5px;
+    font-size: 15px;
+
+}
+@media screen and (max-width: 1300px) {
+    #panel{
+        width:  826px;
+        height: 826px;
+    }
+    #mainWin{
+        left: 225px;
+    }
+    .playlistWin{
+        top: 425px;
+
+    }
+    .equalizerWin{
+        top: 425px;
+        left: 425px;
+    }
+    #panel{
+        top: 5%;
+        transform: translate(-50%, 0);
+    }
+    #copyrights {
+        top: 850px;
+    }
+}
+@media screen and (max-width: 900px) {
+    #panel{
+        width:  400px;
+        height: 1220px;
+    }
+    #mainWin{
+        left: 0;
+    }
+    .playlistWin{
+        top: 410px;
+
+    }
+    .equalizerWin{
+        top: 820px;
+        left: 0;
+    }
+    #panel{
+        top: 10%;
+        left: 26%;
+        transform: none;
+        bottom: 10%;
+    }
+    #copyrights {
+        top: 1270px;
+    }
+}
+@media screen and (max-width: 600px) {
+    #panel{
+        top: 5px;
+        left: 5px;
+    }
+    #mainWin{
+        left: 0;
+    }
+    .playlistWin{
+        top: 410px;
+
+    }
+    .equalizerWin{
+        top: 820px;
+        left: 0;
+    }
+    #panel{
+       ;
+        transform: none;
+        bottom: 10%;
+    }
+
+}
