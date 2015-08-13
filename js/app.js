@@ -12,7 +12,10 @@ var _genre = [
 var _audio = new Audio(),
     _playList=[],
     _playingNumber,
-    _playingGenre=4;
+    _playingGenre= 4,
+    _statusWave,
+    _title;
+
 //контекст
 $(document).ready(function(){
     try {
@@ -20,14 +23,16 @@ $(document).ready(function(){
     } catch(e) {
         alert("Web Audio API is not supported in this browser");
     }
+    $(".equalizerWin").hide();
+    $(".playlistWin").hide();
     makingcontext();
 });
 //кнопки
 $(function(){
-    $myPage = $("html");
-    $playlistWindow =  $(".playlistWin");
-    $playlistButton = $("#playlistBut");
     $equalizerWindow = $(".equalizerWin");
+    $playlistWindow =  $(".playlistWin");
+    $myPage = $("html");
+    $playlistButton = $("#playlistBut");
     $equalizerButton = $("#equalizerBut");
     $timeLine = $("#timeLine");
     $timeFiller = $("#timeFiller");
@@ -64,66 +69,53 @@ $(function(){
 
     $playlistWindow.click( function(e) {
         e.preventDefault();
-        console.log(e.target);
+        var index;
+
         if ($(e.target).attr('class') === "song") {
-            var index = $(e.target).index();//.attr('id').replace('song-', ''), 10);
-            selectSong(index);
+            index = $(e.target).index();
+            if (_playingNumber != index) selectSong(index);
 
         }
         else if ($(e.target).attr('class') === "songName") {
-            var index = $(e.target).parent().index();//.attr('id').replace('song-', ''), 10);
-            selectSong(index);
+            index = $(e.target).parent().index();
+            if (_playingNumber != index) selectSong(index);
 
         }
         else if ( $(e.target).attr('class') ==="fa fa-trash") {
-            var index = $(e.target).parent().parent().index();//attr('id').replace('song-', ''), 10);
+            index = $(e.target).parent().parent().index();
             deleteSong(index);
         }
         else if ( $(e.target).attr('class') ==="delsongBut") {
-            var index = $(e.target).parent().index();//attr('id').replace('song-', ''), 10);
+            index = $(e.target).parent().index();
             deleteSong(index);
         }
 
     });
     $playlistButton.on('click', function(){
-        if ($(this).attr('class') === "pressed") {
-            $playlistWindow.addClass("closed");
-            $(this).removeClass("pressed");
-        }
-        else  {
-            $playlistWindow.removeClass("closed");
-            $(this).addClass("pressed");
-        }
+            $playlistWindow.toggle('show');
+
     });
 
     $equalizerButton.on('click', function(){
-        if ($(this).attr('class') === "pressed") {
-            $equalizerWindow.addClass("closed");
-            $(this).removeClass("pressed");
-        }
-        else  {
-            $equalizerWindow.removeClass("closed");
-            $(this).addClass("pressed");
-        }
+            $equalizerWindow.toggle('show');
     });
     //закрыть окно
     $(".closewinBut").on('click', function(){
-        console.log("Закрыть!");
         var winClass = $(this).closest('div').parent().attr('class');
-        console.log(winClass);
-        $("." + winClass).addClass("closed");
-        if (winClass=="playlistWin") $playlistButton.removeClass("pressed");
-        else $equalizerButton.removeClass("pressed");
+        if (winClass=="playlistWin") $playlistWindow.toggle('show');
+        else $equalizerWindow.toggle('show');
     });
     //поменять визуализацию
     $("#changewaveBut").on('click', function(){
-        if ($(this).attr('class') === "spec"){
-            $(this).removeClass("spec").addClass("wave");
+        console.log(_statusWave);
+        if (_statusWave === "specForm"){
+            _statusWave = "waveForm";
             waveform();
         }
         else{
-            $(this).removeClass("wave").addClass("spec");
+            _statusWave = "specForm";
             specform();
+
         }
     });
     //ползунок звука
@@ -147,6 +139,7 @@ $(function(){
         $('#dropmenuname').text($('#genre-5').text());
         index = parseInt($(this).attr('id').replace('equalizer-', ''), 10);
         _equalizerNodes[index].gain.value =  parseInt(this.value, 10);
+        console.log(this.value);
     });
     //меню эквалайзера
     $equalizerWindow.click( function(e) {
@@ -176,9 +169,7 @@ $(function(){
             _playingGenre = index;
         }
     });
-    $("#changepictureBut").on('click', function(){
-        $('#backcover').attr('src', "sources/images/ImageAwesome400(2).jpg");
-    });
+    $("#changepictureBut").on('click', changePicture)
     $("#loadsongBut").on('click', function(e){
         e.preventDefault();
         $('#inputZone').trigger('click');
@@ -215,7 +206,7 @@ $(function(){
         }
     }
     _audio.addEventListener('timeupdate', updateTime);
-
+    _audio.addEventListener('ended', next);
     $timeLine.on('click', function (e) {
         var value = ((100 / _audio.duration) * _audio.currentTime).toFixed(2);
         var x = e.clientX - $timeFiller.offset().left;
@@ -224,20 +215,27 @@ $(function(){
     });
 });
 
+function changePicture(){
+    $('#backcover').attr('src', "sources/images/ImageAwesome400(2).jpg");
+}
 
 function loadSong(file){
-    addtoPlaylist(file);
-    console.log("Файл загружен; длина плейлиста =  " + _playList.length);
-    if (_playList.length === 1) {
-        $("#speechZone").hide();
-        selectSong(1);
+    if (_playList.length<10) {
+        addtoPlaylist(file);
+        console.log("Файл загружен; длина плейлиста =  " + _playList.length);
+        if (_playList.length === 1) {
+            $("#speechZone").hide();
+            selectSong(1);
+        }
     }
+    else alert( "Максимальный размер плейлиста." );
 
 }
 
 function addtoPlaylist(file){
     _playList.push(file);
-    document.querySelector(".playlistWin").innerHTML += ('<div class="song" id="song-'+ _playList.length +  '"><div class="songName">' + file.name + '</div> <button class="delsongBut" title="Удалить"><i class="fa fa-trash"></i></button></div>');
+
+    $(".playlistWin").append('<div class="song" id="song-'+ _playList.length +  '"><div class="songName">' + file.name + '</div> <button class="delsongBut" title="Удалить"><i class="fa fa-trash"></i></button></div>');
 }
 function selectSong(index){
     $('.song').eq(_playingNumber-1).removeClass("currentSong");
@@ -252,30 +250,60 @@ function selectSong(index){
 
 }
 function deleteSong(index){
-    if(_playingNumber===index)  stopSong();
+    if(_playingNumber===index) {
+        stopSong();
+        if (_playList.length!=1) next();
+    }
+
     $('.song').eq(index-1).remove();
     _playList.splice(index-1,1);
     if (index<_playingNumber) _playingNumber--;
+    if (_playList.length===0) cleanScreen();
+
+
 }
 function playSong(){
-    _audio.play();
-    $('#playBut i').removeClass().addClass('fa fa-pause fa-3x');
-    $('link[rel$=icon]').remove();
-    $('head').append( $('<link rel="shortcut icon" type="image/x-icon"/>' ).attr( 'href', "sources/images/faviconPlay.ico" ) );
-
+    if (_playList.length>0) {
+        _audio.play();
+        $('#playBut i').removeClass().addClass('fa fa-pause fa-3x');
+        $('link[rel$=icon]').remove();
+        changeFavicon("sources/images/faviconaPplay.ico");
+        setTimeout(
+            function(){
+                $(document).prop('title', _title || "audioPlayer");
+            }, 200)
+    }
 }
 function pauseSong(){
     _audio.pause();
     $('#playBut i').removeClass().addClass('fa fa-play fa-3x');
     $('link[rel$=icon]').remove();
-    $('head').append( $('<link rel="shortcut icon" type="image/x-icon"/>' ).attr( 'href', "sources/images/faviconPause.ico" ) );
+    changeFavicon("sources/images/faviconaPpause.ico");
 }
 function stopSong(){
-    pauseSong();
-    _audio.currentTime = 0;
+    if (_playList.length>0) {
+        $(document).prop('title', "audioPlayer");
+        pauseSong();
+        changeFavicon("sources/images/faviconaP.ico");
+        _audio.currentTime = 0;
+    }
 }
-function changeFavicon(){
-
+function changeFavicon(href){
+    $('head').append( $('<link rel="shortcut icon" type="image/x-icon"/>' ).attr( 'href', href ) );
+}
+function cleanScreen(){
+    changePicture();
+    $('#title').text( "");
+    $('#artist').text( "");
+    $('#album').text("");
+    $("#speechZone").show();
+    setTimeout(
+        function(){
+            $("#timeFull").hide();
+            $("#timeCurr").hide();
+        }, 200)
+    changeFavicon("sources/images/faviconaP.ico");
+    $(document).prop('title', "audioPlayer");
 }
 function next(){
     if(_playingNumber==_playList.length)  selectSong(1);
@@ -285,6 +313,7 @@ function next(){
     }
 }
 function prev(){
+
     if(_playingNumber==1) selectSong(_playList.length);
     else{
         var number = _playingNumber-1;
@@ -305,6 +334,7 @@ function metaTags(file){
         console.log(src);
         var tags = ID3.getAllTags(src);
         console.log(tags);
+        _title =tags.title;
         $('#title').text(tags.title || "");
         $('#artist').text(tags.artist || "");
         $('#album').text( tags.album || "");
@@ -345,101 +375,94 @@ function makingcontext(){
         return bFilter;
     });
     source.connect(_equalizerNodes[0])
-    _equalizerNodes[0].connect(_equalizerNodes[1]);
-    _equalizerNodes[1].connect(_equalizerNodes[2]);
-    _equalizerNodes[2].connect(_equalizerNodes[3]);
-    _equalizerNodes[3].connect(_equalizerNodes[4]);
-    _equalizerNodes[4].connect(_equalizerNodes[5]);
-    _equalizerNodes[5].connect(_equalizerNodes[6]);
-    _equalizerNodes[6].connect(_equalizerNodes[7]);
-    _equalizerNodes[7].connect(_equalizerNodes[8]);
-    _equalizerNodes[8].connect(_equalizerNodes[9]);
+    for (var i=0; i<9; i++){
+        _equalizerNodes[i].connect(_equalizerNodes[i+1]);
+    }
     _equalizerNodes[9].connect(_analyserNode);
 
     _analyserNode.connect(_gainNode);
     _gainNode.connect(_context.destination);
-
+    _statusWave = "specForm";
     specform();
+
     _gainNode.gain.value =0.1;
 
 }
-function specform(){
+function specform() {
 
-    _analyserNode.fftSize = 256;
-    var frequencyArray = new Uint8Array(_analyserNode.frequencyBinCount);
-    draw();
-    function draw () {
-        _analyserNode.getByteFrequencyData(frequencyArray);
 
-        var canvas = document.querySelector('canvas');
-        // canvas.width = document.querySelector('canvas').offsetWidth ;
-        //canvas.height = document.querySelector('canvas').offsetHeight ;
-        canvas.width = document.querySelector('#visualZone').offsetWidth ;
-        canvas.height = document.querySelector('#visualZone').offsetHeight ;
-        var context = canvas.getContext('2d');
-        for (var i = 0; i < _analyserNode.frequencyBinCount; i++) {
+            _analyserNode.fftSize = 2048;
+            var frequencyArray = new Uint8Array(_analyserNode.frequencyBinCount);
+            draw();
+            function draw() {
+                _analyserNode.getByteFrequencyData(frequencyArray);
+                var canvas = document.querySelector('canvas');
+                canvas.width = document.querySelector('#visualZone').offsetWidth;
+                canvas.height = document.querySelector('#visualZone').offsetHeight;
+                var context = canvas.getContext('2d');
+                for (var i = 0; i < _analyserNode.frequencyBinCount; i++) {
 
-            var value = frequencyArray[i];
-            var percent = value / 256;
-            var height = canvas.height * percent;
-            var offset = canvas.height - height - 1;
-            var barWidth = canvas.width / _analyserNode.frequencyBinCount;
-            var hue = i / _analyserNode.frequencyBinCount * 360;
-            context.fillStyle = 'rgba(225, 225, 225, 1)';
-            context.fillRect(i * barWidth, offset, barWidth, height);
-        }
+                    var value = frequencyArray[i];
+                    var percent = value / 248;
+                    var height = canvas.height * percent ;
+                    var offset = canvas.height - height - 1;
+                    var barWidth = canvas.width / _analyserNode.frequencyBinCount;
+                    context.fillStyle = 'rgba(225, 225, 225, 1)';
+                    context.fillRect(i * barWidth, offset, barWidth, height);
+                }
 
-        requestAnimationFrame(draw);
-    }
-};
+                if (_statusWave === "specForm") requestAnimationFrame(draw);
+            }
+
+}
 function waveform() {
 
 
-    function draw() {
-        var canvas = document.querySelector('canvas');
-        canvas.width = document.querySelector('#visualZone').offsetWidth ;
-        canvas.height = document.querySelector('#visualZone').offsetHeight ;
-        var WIDTH = canvas.width;
-        var HEIGHT = canvas.height;
-        var canvasCtx = canvas.getContext('2d');
-        var animationFrame;
-        _analyserNode.fftSize = 256;
-        var bufferLength = _analyserNode.frequencyBinCount;
-        var dataArray = new Uint8Array(bufferLength);
-        canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
+        function draw() {
+            var canvas = document.querySelector('canvas');
+            canvas.width = document.querySelector('#visualZone').offsetWidth;
+            canvas.height = document.querySelector('#visualZone').offsetHeight;
+            var WIDTH = canvas.width;
+            var HEIGHT = canvas.height;
+            var canvasCtx = canvas.getContext('2d');
+            var animationFrame;
+            _analyserNode.fftSize = 2048;
+            var bufferLength = _analyserNode.frequencyBinCount;
+            var dataArray = new Uint8Array(bufferLength);
+            canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
 
 
-        requestAnimationFrame(draw);
-        _analyserNode.getByteTimeDomainData(dataArray);
+            if (_statusWave === "waveForm") requestAnimationFrame(draw);
+            _analyserNode.getByteTimeDomainData(dataArray);
 
 
-        canvasCtx.lineWidth = 2;
-        canvasCtx.strokeStyle = 'rgb(255, 255, 255)';
+            canvasCtx.lineWidth = 1;
+            canvasCtx.strokeStyle = 'rgb(255, 255, 255)';
 
-        canvasCtx.beginPath();
+            canvasCtx.beginPath();
 
 
-        var sliceWidth = WIDTH * 1.0 / bufferLength;
-        var x = 0;
+            var sliceWidth = WIDTH * 2.0 / bufferLength;
+            var x = 0;
 
-        for (var i = 0; i < bufferLength; i++) {
+            for (var i = 0; i < bufferLength; i++) {
 
-            var v = dataArray[i] / 128.0;
-            var y = v * HEIGHT / 2;
+                var v = dataArray[i] / 128.0;
+                var y = v * HEIGHT / 2;
 
-            if (i === 0) {
-                canvasCtx.moveTo(x, y);
-            } else {
-                canvasCtx.lineTo(x, y);
+                if (i === 0) {
+                    canvasCtx.moveTo(x, y);
+                } else {
+                    canvasCtx.lineTo(x, y);
+                }
+
+                x += sliceWidth;
             }
 
-            x += sliceWidth;
+            canvasCtx.lineTo(canvas.width, canvas.height / 2);
+            canvasCtx.stroke();
+
         }
 
-        canvasCtx.lineTo(canvas.width, canvas.height / 2);
-        canvasCtx.stroke();
-
-    }
-
-    draw();
+     draw();
 }

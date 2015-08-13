@@ -2,32 +2,35 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <link rel="shortcut icon" href="sources/images/faviconPlay.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="sources/images/faviconaP.ico" type="image/x-icon">
     <script src="sources/libs/jquery-2.1.4.min.js"></script>
     <script src="sources/libs/id3-minimized.js"></script>
     <script src="js/app.js" charset="utf-8"></script>
     <link rel="stylesheet" href="css/style.css">
     <script type="text/javascript" src="http://jdataview.github.io/dist/jdataview.js"></script>
     <link rel="stylesheet" href="sources/fonts/font-awesome.min.css">
-    <title>Аудиоплеер</title>
+    <title>audioPlayer</title>
 </head>
 <body>
+<div id="panel">
 <div class="playlistWin">
     <div class="placeforClose">
         <button class="closewinBut" title="Закрыть"><i class="fa fa-times"></i></button>
     </div>
+
+
 </div>
 <div id="mainWin">
 
     <img id ="backcover" src="sources/images/ImageAwesome400(2).jpg">
 
     <div id="visualZone">
-        <div id="speechZone">Перетащите или нажмите <i class="fa fa-upload"></i> для загрузки песни</div>
+        <div id="speechZone">Перетащите песню или нажмите <i class="fa fa-upload"></i> для ее загрузки</div>
         <canvas  id="myCanvas"></canvas><div id="header">
-        <button id="changewaveBut" class="spec" title="Сменить визуализацию"><i class="fa fa-bar-chart fa-3x"></i></button>
+        <button id="changewaveBut" title="Сменить визуализацию"><i class="fa fa-bar-chart fa-3x"></i></button>
         <input type="file" id="inputZone">
         <button id="loadsongBut" title="Открыть песню"><i class="fa fa-upload fa-3x"></i></button>
-        <button id="changepictureBut" title="Изменить фон"><i class="fa fa-picture-o fa-3x"></i></button>
+        <button id="changepictureBut" title="Изменить фон на стандартный"><i class="fa fa-picture-o fa-3x"></i></button>
     </div>
 
     </div>
@@ -41,12 +44,12 @@
             <p id="album"></p>
         </div>
         <div id="controls">
-            <button id="playlistBut" class="pressed" title="Плейлист"><i class="fa fa-list fa-3x"></i></button>
+            <button id="playlistBut" title="Плейлист"><i class="fa fa-list fa-3x"></i></button>
             <button id="prevBut" title="Предыдущая"><i class="fa fa-fast-backward fa-3x"></i></button>
             <button id="playBut" title="Play/Pause"><i class="fa fa-play fa-3x"></i></button>
             <button id="stopBut" title="Stop"><i class="fa fa-stop fa-3x"></i></button>
             <button id="nextBut" title="Следующая"><i class="fa fa-fast-forward fa-3x"></i></button>
-            <button id="equalizerBut" class="pressed" title="Эквалайзер"><i class="fa fa-sliders fa-3x"></i></button>
+            <button id="equalizerBut" title="Эквалайзер"><i class="fa fa-sliders fa-3x"></i></button>
         </div>
         <div id="volume-level">
             <button id="volumeofftBut" title="Выключить звук"><i class="fa fa-volume-off "></i></button>
@@ -94,9 +97,9 @@
     </div>
 </div>
 
-<p class="copyrights">
-    Кузнецов Петр
+<p id="copyrights">
+    <a href="mailto:Urkass1994@gmail.com?Subject=ШРИ%202015">Кузнецов Петр</a> 2015
 </p>
-
+</div>
 </body>
 </html>
