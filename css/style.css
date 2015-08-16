@@ -10,7 +10,8 @@ body {
     background-color: aliceblue;
     font-family: "Open Sans", sans-serif;
 }
-#panel{
+
+#panel {
     position: absolute;
     width: 1300px;
     height: 400px;
@@ -20,7 +21,9 @@ body {
     /* bring your own prefixes */
     transform: translate(-50%, -50%);
 }
-#mainWin, .equalizerWin, .playlistWin{
+/*3 окна: главное, плейлист ит эквалайзер*/
+/*3 windows*/
+#mainWin, .equalizerWin, .playlistWin {
 
     width: 400px;
     height: 400px;
@@ -36,17 +39,20 @@ body {
     bottom: 0;
 
 }
-#mainWin{
+#mainWin {
     left: 450px;
 }
-.playlistWin{
 
+.playlistWin {
 
 }
-.equalizerWin{
+
+.equalizerWin {
 
     left: 900px;
 }
+/*обложка альбома на заднем плане*.
+/*album cover on the background*/
 #mainWin img {
     position: absolute;
     top: 0px;
@@ -55,8 +61,8 @@ body {
     right: 0px;
     z-index: -1;
     display: block;
-    width: 100% ;
-    height: 100% ;
+    width: 100%;
+    height: 100%;
     background-color: #222222;
     -webkit-filter: blur(2px);
     filter: blur(2px);
@@ -71,43 +77,48 @@ body {
     text-align: center;
     position: relative;
 }
-#visualZone button{
+
+#visualZone button {
     margin-top: 10px;
 }
-canvas{
+
+canvas {
     position: relative;
     width: 100%;
     height: 200px;
 }
+#speechZone {
+    position: absolute;
+    top: 80px;
+    left: 100px;
+    width: 200px;
+    height: 40px;
+    color: rgba(225, 225, 225, 0.9);
+    background: rgba(0, 120, 130, 0.6);
+    border-radius: 5px;
+    font-size: 15px;
 
+}
 /*2ая панель*/
-#controlsZone, #header
-{
+#controlsZone, #header {
     background: #008080;
-    background: rgba(0,128,128, 0.6);
+    background: rgba(0, 128, 128, 0.6);
     width: 100%;
 }
+
 #controlsZone {
     text-align: center;
     height: 200px;
 }
-
-#copyrights {
-    position: absolute;
-    top: 130%;
-    left: 50%;
+.controls {
+    position: relative;
+    width: 100%;
+    color: #fff;
     text-align: center;
-    transform: translate(-50%, -50%);
-    text-transform: capitalize;
-
-    color: rgba(0, 0, 0, 0.6);
 }
-#copyrights a{
-    color: #008080;
-
-}
-#header
-{
+/*выкатывающаяся панель*/
+/*rolling panel*/
+#header {
     position: absolute;
     top: -65px;
     right: 0;
@@ -120,8 +131,12 @@ canvas{
     text-shadow: 0 1px 2px rgba(0, 0, 0, .8);
     transition: all .5s;
 }
-#visualZone:hover #header { top: 0 }
-#information p{
+#visualZone:hover #header {
+    top: 0
+}
+/*информация об адьбоме*/
+/*Information about album*/
+#information p {
     margin: 3px;
     color: #FFF;
     font-size: 20px;
@@ -132,14 +147,15 @@ canvas{
 }
 
 /*Плейлист*/
-.song, .genre{
+/*Playlist*/
+.song, .genre {
 
     display: table-cell;
-    white-space:nowrap;
+    white-space: nowrap;
     border-color: #eeeeee;
 
     border-collapse: collapse;
-    border-bottom: 1px solid ;
+    border-bottom: 1px solid;
     width: 100%;
     height: 38px;
     float: left;
@@ -147,20 +163,21 @@ canvas{
     color: rgba(225, 225, 225, 0.9);
     cursor: pointer;
 }
-.song:hover, .genre:hover{
+.song:hover, .genre:hover {
     color: #fff;
     border-color: #eeeeee;
 
 }
-.currentSong, .currentGenre{
+
+.currentSong, .currentGenre {
     background: #008080;
-    background: rgba(0,128,128, 0.6);
+    background: rgba(0, 128, 128, 0.6);
     color: #fff;
     border-color: #eeeeee;
 }
-.songName, .genreName{
+.songName, .genreName {
     position: relative;
-    display:inline-block;
+    display: inline-block;
     width: 350px;
     height: 26px;
     overflow: hidden;
@@ -169,25 +186,20 @@ canvas{
     left: 10px;
 
 }
-.delsongBut{
-    display:inline-block;
+.delsongBut {
+    display: inline-block;
     position: relative;
     top: -3px;
 }
-.placeforClose{
+.placeforClose {
     width: 100%;
     height: 20px;
     color: #eeeeee;
-    border-bottom:1px solid #eeeeee;
-}
-/* КНОПКИ*/
-.controls {
-    position: relative;
-    width: 100%;
-    color: #fff;
-    text-align: center;
+    border-bottom: 1px solid #eeeeee;
 }
 
+/* КНОПКИ*/
+/*buttons*/
 button {
     margin: 3px;
     color: #fff;
@@ -199,38 +211,46 @@ button {
     text-shadow: 1px 1px 3px #000;
     transition: all .3s ease-in-out;
     -webkit-transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+    -o-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
 }
 
 button:hover {
     text-shadow: 3px 3px 3px #000;
     color: #c3ece6;
 }
-button:active{
+
+button:active {
     color: black;
 }
 
-
-#information, #volume-level, #controls, #timeLine{
+#information, #volume-level, #controls, #timeLine {
     width: 100%;
     position: relative;
 }
-#information{
-     height: 80px;
- }
-#volume-level{
+
+#information {
+    height: 80px;
+}
+
+#volume-level {
     height: 30px;
 }
-#controls{
+
+#controls {
     height: 70px;
 }
-#timeLine{
+/*Линия проигр.*/
+#timeLine {
     height: 20px;
     background-color: rgba(225, 225, 225, 0.5);
     cursor: pointer;
 
-    border-bottom: 1px solid  #222;
+    border-bottom: 1px solid #222;
 }
-#timeFiller{
+
+#timeFiller {
     width: 0;
     height: 19px;
     float: left;
@@ -240,29 +260,34 @@ button:active{
     background-color: #3b3b3b;
 }
 
-.timeLabel{
+.timeLabel {
     position: absolute;
     font-size: 0.8em;
     top: 2px;
     display: none;
 }
-#timeCurr{
+
+#timeCurr {
     left: 10px;
 }
-#timeFull{
+
+#timeFull {
     right: 10px;
 
 }
-.closewinBut{
+
+.closewinBut {
     float: right;
     margin: 0;
 }
+
 /*ползунок!*/
+/*slider*/
 
-
-label.default{
+label.default {
     font-size: 0.5em;
 }
+
 #sliders {
     width: 100%;
     height: 150px;
@@ -271,15 +296,18 @@ label.default{
     color: rgba(225, 225, 225, 0.9);
     cursor: pointer;
 }
-#sliders div{
+
+#sliders div {
     width: 30px;
     height: 148px;
     float: left;
     margin-left: 9px;
 }
 
-input[type=range]{
+input[type=range] {
     -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
     width: 200px;
     height: 5px;
     background: white;
@@ -296,21 +324,28 @@ input[type=range]{
 
 input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none;
+    appearance: none;
     width: 20px;
     height: 20px;
     border-radius: 100%;
     background: #008080;
     position: relative;
-    border: 3px solid  #222;;
+    border: 3px solid #222;;
     box-shadow: 1px 1px 3px #000;;
     z-index: 3;
     cursor: pointer;
     border-radius: 100%;
 }
 
-.equalizerWin input{
+.equalizerWin input {
     -webkit-appearance: none;
-    -webkit-transform:rotate(-90deg);
+    -moz-appearance: none;
+    appearance: none;
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    transform: rotate(-90deg);
     width: 150px;
     margin-top: 80px;
     margin-left: -63px;
@@ -322,13 +357,14 @@ input[type=range]::-webkit-slider-runnable-track {
 
 input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none;
+    appearance: none;
     margin-top: -8px;
     width: 20px;
     height: 20px;
 
-    background: rgba(0,120,130, 1);
+    background: rgba(0, 120, 130, 1);
     position: relative;
-    border: 3px solid  #222;;
+    border: 3px solid #222;;
     box-shadow: 1px 1px 3px #000;;
     z-index: 3;
     cursor: pointer;
@@ -337,95 +373,118 @@ input[type=range]::-webkit-slider-thumb {
 input[type=range]:focus {
     outline: none;
 }
+
 input[type=range]:focus::-webkit-slider-runnable-track {
     background: #ccc;
 }
-#inputZone{
+
+#inputZone {
     position: absolute;
     top: -100px;
 }
-#speechZone{
-    position: absolute;
-    top: 80px;
-    left: 100px;
-    width: 200px;
-    height: 40px;
-    color: rgba(225, 225, 225, 0.9);
-    background: rgba(0,120,130, 0.6);
-    border-radius: 5px;
-    font-size: 15px;
 
-}
+
+
 @media screen and (max-width: 1300px) {
-    #panel{
-        width:  826px;
+    #panel {
+        width: 826px;
         height: 826px;
     }
-    #mainWin{
+
+    #mainWin {
         left: 225px;
     }
-    .playlistWin{
+
+    .playlistWin {
         top: 425px;
 
     }
-    .equalizerWin{
+
+    .equalizerWin {
         top: 425px;
         left: 425px;
     }
-    #panel{
+
+    #panel {
         top: 5%;
         transform: translate(-50%, 0);
     }
+
     #copyrights {
         top: 850px;
     }
 }
+
 @media screen and (max-width: 900px) {
-    #panel{
-        width:  400px;
+    #panel {
+        width: 400px;
         height: 1220px;
     }
-    #mainWin{
+
+    #mainWin {
         left: 0;
     }
-    .playlistWin{
+
+    .playlistWin {
         top: 410px;
 
     }
-    .equalizerWin{
+
+    .equalizerWin {
         top: 820px;
         left: 0;
     }
-    #panel{
+
+    #panel {
         top: 10%;
         left: 26%;
         transform: none;
         bottom: 10%;
     }
+
     #copyrights {
         top: 1270px;
     }
 }
+
 @media screen and (max-width: 600px) {
-    #panel{
+    #panel {
         top: 5px;
         left: 5px;
     }
-    #mainWin{
+
+    #mainWin {
         left: 0;
     }
-    .playlistWin{
+
+    .playlistWin {
         top: 410px;
 
     }
-    .equalizerWin{
+
+    .equalizerWin {
         top: 820px;
         left: 0;
     }
-    #panel{
-       ;
+
+    #panel {;
         transform: none;
         bottom: 10%;
     }
+
+}
+#copyrights {
+    position: absolute;
+    top: 130%;
+    left: 50%;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    text-transform: capitalize;
+
+    color: rgba(0, 0, 0, 0.6);
+}
+
+#copyrights a {
+    color: #008080;
 
 }
